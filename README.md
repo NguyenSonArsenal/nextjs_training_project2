@@ -1,0 +1,5 @@
+- App Router (new, from Next.js 13: serve component)
+- next 15.5
+- node 22
+- npm 10
+- tailwind 3
