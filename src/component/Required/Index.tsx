@@ -1,3 +1,3 @@
-export default function Required() {
+export default function Index() {
     return <span className={'text-myRed'}>*</span>
 }
