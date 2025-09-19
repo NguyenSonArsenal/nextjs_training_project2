@@ -11,9 +11,11 @@ export default function Login() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [showPassword, setShowPassword] = useState(false)
+  const [errorEmail, setErrorEmail] = useState('')
+  const [errorPassword, setErrorPassword] = useState('')
 
   useEffect(() => {
-    const valid = !!email && !!password
+    const valid = !errorEmail && !errorPassword
     setIsValid(valid)
   }, [email, password])
 
@@ -22,14 +24,35 @@ export default function Login() {
   }
 
   const onChangeEmail = (e) => {
-    setEmail(e.target.value);
+    const val = e.target.value
+    setEmail(val);
+    if (!val) {
+      setErrorEmail("Vui lòng nhập email")
+    } else if (!val.includes('@')) {
+      setErrorEmail("Email phải có kí tự @")
+    } else {
+      setErrorEmail("")
+    }
   }
 
   const onChangePassword = (e) => {
-    setPassword(e.target.value);
+    const val = e.target.value
+    setPassword(val);
+    if (!val) {
+      setErrorPassword("Vui lòng nhập password")
+    } else if (val.length < 6) {
+      setErrorPassword("Mật khẩu ít nhất 6 kí tự")
+    } else if (/\s/.test(val)){
+      setErrorPassword("Mật khẩu không được chứa khoảng trắng")
+    } else {
+      setErrorPassword("")
+    }
   }
 
   const submitForm = () => {
+    if (!isValid) {
+      return;
+    }
     console.log('submit: ', email, password);
   }
 
@@ -42,7 +65,7 @@ export default function Login() {
         <div className="form_group mb-2">
           <label className="font-semibold mb-1">Email <Required /></label>
           <input type="email" className="text-[17px] px-3 py-[10px] form_control" value={email} onChange={onChangeEmail} placeholder="email@gmail.com"/>
-          <div className={'text-myRed mt-1 text-[12px]'}>error email</div>
+          {errorEmail && <div className={'text-myRed mt-1 text-[12px]'}>{errorEmail}</div>}
         </div>
         <div className="form_group mb-2">
           <label className="font-semibold mb-1">Password <Required /></label>
@@ -57,7 +80,7 @@ export default function Login() {
               {showPassword ? <EyeSlashIcon /> : <EyeIcon />}
             </div>
           </div>
-          <div className={'text-myRed mt-1 text-[12px]'}>error password</div>
+          {errorPassword && <div className={'text-myRed mt-1 text-[12px]'}>{errorPassword}</div>}
         </div>
         <button type={"button"} className={`rounded block bg-myRed w-full text-white py-[10px] mb-3 mt-6 ${
           isValid ? 'bg-myRed opacity-100 cursor-pointer' : 'bg-myRed opacity-50 cursor-not-allowed'
@@ -72,7 +95,7 @@ export default function Login() {
 
       {/* DebugPanel chỉ hiển thị ở dev */}
       {process.env.NODE_ENV === 'development' && (
-        <DebugPanel data={{ email, password, showPassword }} />
+        <DebugPanel data={{ email, password, isValid, showPassword }} />
       )}
     </div>
   )
