@@ -15,6 +15,10 @@ export default function Login() {
   const [errorPassword, setErrorPassword] = useState('')
 
   useEffect(() => {
+    if (!email && !password) {
+      setIsValid(false)
+      return
+    }
     const valid = !errorEmail && !errorPassword
     setIsValid(valid)
   }, [email, password])
@@ -49,11 +53,28 @@ export default function Login() {
     }
   }
 
-  const submitForm = () => {
+  const submitForm = async () => {
     if (!isValid) {
       return;
     }
-    console.log('submit: ', email, password);
+
+    // console.log('submit: ', email, password);
+
+    const res = await fetch("https://reqres.in/api/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-api-key": "reqres-free-v1" // thêm API key vào đây
+      },
+      body: JSON.stringify({
+        email: "eve.holt@reqres.in1",
+        password: "cityslicka"
+      })
+    });
+
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || "Login failed");
+    console.log('Login thanh cong')
   }
 
   return (
