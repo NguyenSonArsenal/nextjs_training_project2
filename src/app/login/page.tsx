@@ -5,6 +5,8 @@ import Required from "@/component/Required/Index";
 import {useEffect, useState} from "react";
 import DebugPanel from "@/component/DebugPanel";
 import {EyeIcon, EyeSlashIcon} from "@/component/Icon";
+import { useRouter } from 'next/navigation'
+import {setCookie} from "@/util/helper";
 
 export default function Login() {
   const [isValid, setIsValid] = useState(false)
@@ -13,13 +15,18 @@ export default function Login() {
   const [showPassword, setShowPassword] = useState(false)
   const [errorEmail, setErrorEmail] = useState('')
   const [errorPassword, setErrorPassword] = useState('')
+  const [errorAuthen, setErrorAuthen] = useState('')
+  const [isSubmitting, setIsSubmitting] = useState(false)
+
+
+  const router = useRouter()
 
   useEffect(() => {
     if (!email && !password) {
       setIsValid(false)
       return
     }
-    const valid = !errorEmail && !errorPassword
+    const valid = !errorEmail && !errorPassword && !!email && !!password
     setIsValid(valid)
   }, [email, password])
 
@@ -54,27 +61,41 @@ export default function Login() {
   }
 
   const submitForm = async () => {
-    if (!isValid) {
+    if (!isValid || isSubmitting) {
       return;
     }
 
+    setIsSubmitting(true)
+
     // console.log('submit: ', email, password);
+    try {
+      const res = await fetch("https://reqres.in/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-api-key": "reqres-free-v1" // thêm API key vào đây
+        },
+        body: JSON.stringify({
+          email: "eve.holt@reqres.in",
+          password: "cityslicka"
+        })
+      });
 
-    const res = await fetch("https://reqres.in/api/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-api-key": "reqres-free-v1" // thêm API key vào đây
-      },
-      body: JSON.stringify({
-        email: "eve.holt@reqres.in1",
-        password: "cityslicka"
-      })
-    });
+      const data = await res.json();
+      if (data.token) {
+        console.log("Đăng nhập thành công", data.token)
+        // ✅ Lưu token vào cookie (client-side)
+        setCookie('token', data.token)
+        setCookie('email', 'eve.holt@reqres.in')
 
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.error || "Login failed");
-    console.log('Login thanh cong')
+        return router.push('/')
+      }
+      setErrorAuthen("Đã có lỗi sảy ra vui lòng thử lại sau")
+    } catch (err) {
+      setErrorAuthen("Có lỗi xảy ra khi đăng nhập")
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (
@@ -83,6 +104,7 @@ export default function Login() {
       <div className="mb-6">Bạn chưa có tài khoản?<Link href={"#"} className="text-myRed"> Đăng ký</Link></div>
 
       <form action="">
+        {errorAuthen && <div className={'text-myRed mb-4 text-[12px]'}>{errorAuthen}</div>}
         <div className="form_group mb-2">
           <label className="font-semibold mb-1">Email <Required /></label>
           <input type="email" className="text-[17px] px-3 py-[10px] form_control" value={email} onChange={onChangeEmail} placeholder="email@gmail.com"/>
