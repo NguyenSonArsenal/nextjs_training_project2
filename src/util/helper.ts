@@ -17,3 +17,7 @@ export const setCookie = (name: string, value: string, maxAgeSeconds = 3600) => 
 export const deleteCookie = (name: string) => {
   document.cookie = `${name}=; path=/; max-age=0`
 }
+
+export function delay(ms: number) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}

@@ -6,28 +6,27 @@ import {useEffect, useState} from "react";
 import DebugPanel from "@/component/DebugPanel";
 import {EyeIcon, EyeSlashIcon} from "@/component/Icon";
 import { useRouter } from 'next/navigation'
-import {setCookie} from "@/util/helper";
+import {delay, setCookie} from "@/util/helper";
 
 export default function Login() {
-  const [isValid, setIsValid] = useState(false)
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [showPassword, setShowPassword] = useState(false)
   const [errorEmail, setErrorEmail] = useState('')
   const [errorPassword, setErrorPassword] = useState('')
   const [errorAuthen, setErrorAuthen] = useState('')
-  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [allowSubmit, setAllowSubmit] = useState(false)
 
 
   const router = useRouter()
 
   useEffect(() => {
     if (!email && !password) {
-      setIsValid(false)
+      setAllowSubmit(false)
       return
     }
     const valid = !errorEmail && !errorPassword && !!email && !!password
-    setIsValid(valid)
+    setAllowSubmit(valid)
   }, [email, password])
 
   const togglePassword = () => {
@@ -61,11 +60,9 @@ export default function Login() {
   }
 
   const submitForm = async () => {
-    if (!isValid || isSubmitting) {
-      return;
-    }
-
-    setIsSubmitting(true)
+    setAllowSubmit(false)
+    setErrorAuthen('')
+    await delay(3000)
 
     // console.log('submit: ', email, password);
     try {
@@ -94,7 +91,7 @@ export default function Login() {
     } catch (err) {
       setErrorAuthen("Có lỗi xảy ra khi đăng nhập")
     } finally {
-      setIsSubmitting(false)
+      setAllowSubmit(true)
     }
   }
 
@@ -125,11 +122,17 @@ export default function Login() {
           </div>
           {errorPassword && <div className={'text-myRed mt-1 text-[12px]'}>{errorPassword}</div>}
         </div>
-        <button type={"button"} className={`rounded block bg-myRed w-full text-white py-[10px] mb-3 mt-6 ${
-          isValid ? 'bg-myRed opacity-100 cursor-pointer' : 'bg-myRed opacity-50 cursor-not-allowed'
-        }`}
+        <button type={"button"}
+                className={`rounded block bg-myRed w-full text-white py-[10px] mb-3 mt-6
+                  ${
+                    allowSubmit ? 'opacity-100 cursor-pointer' : 'opacity-50 cursor-not-allowed'
+                  } 
+                `}
+
+                disabled={!allowSubmit}
                 onClick={submitForm}
-        >Đăng nhập
+        >
+          Đăng nhập
         </button>
         <Link href={"#"} className="text-myRed text-right block">Quên mật khẩu</Link>
       </form>
@@ -138,7 +141,7 @@ export default function Login() {
 
       {/* DebugPanel chỉ hiển thị ở dev */}
       {process.env.NODE_ENV === 'development' && (
-        <DebugPanel data={{ email, password, isValid, showPassword }} />
+        <DebugPanel data={{ email, password, showPassword, allowSubmit }} />
       )}
     </div>
   )
