@@ -101,7 +101,7 @@ export default function Login() {
   return (
     <div className="min-h-screen max_w_414px m-auto bg-white w-full h-full pt-[30px] md:px-[15px]">
       <h1 className="mb-2">Đăng nhập</h1>
-      <div className="mb-6">Bạn chưa có tài khoản?<Link href={"#"} className="text-myRed"> Đăng ký</Link></div>
+      <div className="mb-6">Bạn chưa có tài khoản?<Link href={"register"} className="text-myRed"> Đăng ký</Link></div>
 
       <form action="">
         {errorAuthen && <div className={'text-myRed mb-4 text-[12px]'}>{errorAuthen}</div>}
@@ -111,7 +111,7 @@ export default function Login() {
           {errorEmail && <div className={'text-myRed mt-1 text-[12px]'}>{errorEmail}</div>}
         </div>
         <div className="form_group mb-2">
-          <label className="font-semibold mb-1">Password <Required /></label>
+          <label className="font-semibold mb-1">Mật khẩu <Required /></label>
           <div className="relative">
             <input type={showPassword ? 'text' : 'password'} className="pr-10 text-[17px] px-3 py-[10px] form_control"
                    value={password} onChange={onChangePassword} placeholder="******"
