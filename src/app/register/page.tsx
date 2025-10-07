@@ -9,9 +9,13 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import InputErrorMessage from "@/component/InputErrorMessage";
+import toast from 'react-hot-toast';
+import {useRouter} from "next/navigation";
+import {delay} from "@/util/helper";
 
 // ✅ Schema kiểm tra dữ liệu
 const validator = yup.object({
+  username: yup.string().required('Username bắt buộc').max(4, 'Username tối đa 64 ký tự'),
   email: yup.string().email('Email không hợp lệ').required('Email bắt buộc'),
   phone: yup.string()
     .required('SĐT bắt buộc')
@@ -25,6 +29,7 @@ const validator = yup.object({
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false)
   const [showPasswordConfirmation, setShowPasswordConfirmation] = useState(false)
+  const router = useRouter()
 
   const {
     register,
@@ -35,8 +40,29 @@ export default function Login() {
   })
 
   const onSubmit = async (data: any) => {
-    console.log('Dữ liệu đăng ký:', data)
-    // Gọi API đăng ký ở đây nếu cần
+    try {
+      const response = await fetch('http://127.0.0.1:8000/api/creator/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      })
+
+      const result = await response.json()
+
+      if (!response.ok) {
+        // Nếu API trả lỗi (status ≠ 200)
+        console.error('Lỗi đăng ký:', result)
+        toast.error('Đăng ký thất bại')
+        return
+      }
+      toast.success('Thêm mới thành công')
+      return router.push('/login')
+    } catch (error) {
+      console.error('Lỗi kết nối:', error)
+      toast.error('Không thể kết nối đến máy chủ')
+    }
   }
 
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -51,25 +77,33 @@ export default function Login() {
 
       <form onSubmit={handleSubmit(onSubmit)} noValidate>
         <div className="form_group mb-2">
-          <label className="font-semibold mb-1">Email <Required /></label>
-          <input type="email" className="text-[17px] px-3 py-[10px] form_control" placeholder="email@gmail.com"
-                 {...register("email")}
+          <label className="font-semibold mb-1">Username <Required/></label>
+          <input type="email" className="text-[17px] px-3 py-[10px] form_control" placeholder="lorem ..."
+                 {...register("username")}
           />
-          <InputErrorMessage message={errors.email?.message} />
+          <InputErrorMessage message={errors.email?.message}/>
         </div>
 
         <div className="form_group mb-2">
-          <label className="font-semibold mb-1">SĐT <Required /></label>
+          <label className="font-semibold mb-1">Email <Required/></label>
+          <input type="email" className="text-[17px] px-3 py-[10px] form_control" placeholder="email@gmail.com"
+                 {...register("email")}
+          />
+          <InputErrorMessage message={errors.email?.message}/>
+        </div>
+
+        <div className="form_group mb-2">
+          <label className="font-semibold mb-1">SĐT <Required/></label>
           <input type="text" className="text-[17px] px-3 py-[10px] form_control"
                  placeholder="0964000111" {...register("phone")}
                  pattern="\d*" inputMode="numeric"
                  onChange={handlePhoneChange}
           />
-          <InputErrorMessage message={errors.phone?.message} />
+          <InputErrorMessage message={errors.phone?.message}/>
         </div>
 
         <div className="form_group mb-2">
-          <label className="font-semibold mb-1">Mật khẩu <Required /></label>
+          <label className="font-semibold mb-1">Mật khẩu <Required/></label>
           <div className="relative">
             <input type={showPassword ? 'text' : 'password'} className="pr-10 text-[17px] px-3 py-[10px] form_control"
                    placeholder="******" {...register("password")}
@@ -78,26 +112,27 @@ export default function Login() {
               className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer text-[18px]"
               onClick={() => setShowPassword(prev => !prev)}
             >
-              {showPassword ? <EyeSlashIcon /> : <EyeIcon />}
+              {showPassword ? <EyeSlashIcon/> : <EyeIcon/>}
             </div>
           </div>
-          <InputErrorMessage message={errors.password?.message} />
+          <InputErrorMessage message={errors.password?.message}/>
         </div>
 
         <div className="form_group mb-2">
-          <label className="font-semibold mb-1">Xác nhận mật khẩu <Required /></label>
+          <label className="font-semibold mb-1">Xác nhận mật khẩu <Required/></label>
           <div className="relative">
-            <input type={showPasswordConfirmation ? 'text' : 'password'} className="pr-10 text-[17px] px-3 py-[10px] form_control"
+            <input type={showPasswordConfirmation ? 'text' : 'password'}
+                   className="pr-10 text-[17px] px-3 py-[10px] form_control"
                    placeholder="******" {...register("password_confirmation")}
             />
             <div
               className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer text-[18px]"
               onClick={() => setShowPasswordConfirmation(prev => !prev)}
             >
-              {showPasswordConfirmation ? <EyeSlashIcon /> : <EyeIcon />}
+              {showPasswordConfirmation ? <EyeSlashIcon/> : <EyeIcon/>}
             </div>
           </div>
-          <InputErrorMessage message={errors.password_confirmation?.message} />
+          <InputErrorMessage message={errors.password_confirmation?.message}/>
         </div>
 
         <button type="submit"
@@ -112,7 +147,7 @@ export default function Login() {
 
       {/* DebugPanel chỉ hiển thị ở dev */}
       {process.env.NODE_ENV === 'development' && (
-        <DebugPanel data={{  }} />
+        <DebugPanel data={{}}/>
       )}
     </div>
   )
