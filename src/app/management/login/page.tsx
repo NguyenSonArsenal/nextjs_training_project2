@@ -20,7 +20,6 @@ export default function Login() {
   const [errorAuthen, setErrorAuthen] = useState('')
   const [allowSubmit, setAllowSubmit] = useState(false)
 
-
   const router = useRouter()
 
   useEffect(() => {
@@ -65,7 +64,7 @@ export default function Login() {
   const submitForm = async () => {
     setAllowSubmit(false)
     setErrorAuthen('')
-    await delay(3000)
+    await delay(1000)
 
     try {
       const response = await postLogin({
@@ -74,7 +73,7 @@ export default function Login() {
       });
 
       const data = await response.data;
-      if (data.data.accessToken) {
+      if (data.success) {
         setCookie(ACCESS_TOKEN_KEY, data.data.accessToken)
         setCookie('email', email)
         toast.success("Đăng nhập thành công")

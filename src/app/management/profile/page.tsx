@@ -6,7 +6,7 @@ import toast from "react-hot-toast";
 import Link from "next/link";
 import axiosInstance from "@/util/axiosInstance";
 import UpdatePassword from "@/component/Modal/UpdatePassword";
-import { getManagementPath} from "@/util/helper";
+import {delay, getManagementPath} from "@/util/helper";
 import Header from "@/component/Header";
 import LoadingScroll from "@/component/LoadingScroll";
 
@@ -24,7 +24,6 @@ export default function Profile() {
       try {
         const res = await axiosInstance.get('creator/profile');
         const data = await res.data
-
         if (!data.success) {
           toast.error('Không thể tải thông tin cá nhân')
           return
@@ -42,7 +41,6 @@ export default function Profile() {
   return (
     <div className="min-h-screen max_w_414px m-auto bg-white w-full h-full pt-[15px] md:px-[15px] pb-[6px]">
       <Header title={"Trang cá nhân"} backHref={getManagementPath('')}/>
-      <hr/>
       {
         !user ? (
           <LoadingScroll />

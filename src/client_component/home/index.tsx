@@ -35,10 +35,8 @@ export default function HomeClient() {
     <div className="min-h-screen max_w_414px m-auto bg-white w-full h-full pt-[30px] md:px-[15px]">
       <div className="font-medium text-2xl mb-4">Chào mừng <strong className="italic text-myRed">{getCookie('email')}</strong> đến trang Home 🎉</div>
 
-      <Link href={getManagementPath('/profile')}>Profile</Link>
-      <br/>
-      <br/>
-      <br/>
+      <Link className={'mb-4 block'} href={getManagementPath('/profile')}>Profile</Link>
+      <Link className={'mb-4 block'} href={getManagementPath('/user')}>User</Link>
 
       {/*<Link href="login" className="text-myRed">Logout</Link>*/}
 

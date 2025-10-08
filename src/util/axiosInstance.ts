@@ -18,6 +18,10 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.response.use(
   (response: AxiosResponse) => response,
   (error) => {
+
+    console.log(error, '// error');
+
+
     if (error.response?.status === 401) {
       console.log(error.response, 'axiosInstance')
       deleteCookie(ACCESS_TOKEN_KEY)

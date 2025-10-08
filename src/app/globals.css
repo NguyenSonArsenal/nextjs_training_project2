@@ -90,7 +90,8 @@ a {
 
 /* custom modal antd */
 .adm-modal-content {
-  font-size: 14px;
+  font-size: 14px !important;
+  padding: 0 15px !important;
 }
 .modalMobile {
   z-index: 1002;
