@@ -1,9 +1,9 @@
 "use client"
 
-import Link from "next/link";
 import { useRouter } from 'next/navigation'
 import {getCookie, getManagementPath, setCookie} from '@/util/helper'
 import {useEffect, useState} from "react";
+import {ACCESS_TOKEN_KEY} from "@/config/system";
 
 export default function HomeClient() {
   const router = useRouter()
@@ -11,7 +11,7 @@ export default function HomeClient() {
   const [isChecking, setIsChecking] = useState(true)
 
   useEffect(() => {
-    const token = getCookie('token')
+    const token = getCookie(ACCESS_TOKEN_KEY)
     if (!token) {
       router.push(getManagementPath('/login'))
     } else {
@@ -21,7 +21,7 @@ export default function HomeClient() {
   }, [])
 
   const logout = () => {
-    setCookie('token', '')
+    setCookie(ACCESS_TOKEN_KEY, '')
     setCookie('email', '')
     router.push(getManagementPath('/login'))
   }

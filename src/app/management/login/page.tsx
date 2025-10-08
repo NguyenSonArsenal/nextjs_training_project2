@@ -9,6 +9,7 @@ import { useRouter } from 'next/navigation'
 import {delay, getManagementPath, setCookie} from "@/util/helper";
 import {postLogin} from "@/controller/api";
 import toast from "react-hot-toast";
+import {ACCESS_TOKEN_KEY} from "@/config/system";
 
 export default function Login() {
   const [email, setEmail] = useState("")
@@ -74,7 +75,7 @@ export default function Login() {
 
       const data = await response.data;
       if (data.data.accessToken) {
-        setCookie('token', data.data.accessToken)
+        setCookie(ACCESS_TOKEN_KEY, data.data.accessToken)
         setCookie('email', email)
         toast.success("Đăng nhập thành công")
         return router.push(getManagementPath(''))

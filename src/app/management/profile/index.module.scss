@@ -1,0 +1,22 @@
+.modalMobile {
+    z-index: 1002;
+    :global {
+        .adm-mask.adm-center-popup-mask {
+            max-width: 414px;
+            margin-left: calc((100% - 414px) / 2);
+        }
+        .adm-center-popup-wrap {
+            max-width: 414px;
+            width: 100%;
+            height: 100vh;
+            > div {
+                height: 100vh;
+                .adm-center-popup-body {
+                    height: 100vh;
+                    max-height: 100vh;
+                    border-radius: 0;
+                }
+            }
+        }
+    }
+}
