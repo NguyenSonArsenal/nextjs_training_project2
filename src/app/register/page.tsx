@@ -12,10 +12,11 @@ import InputErrorMessage from "@/component/InputErrorMessage";
 import toast from 'react-hot-toast';
 import {useRouter} from "next/navigation";
 import {delay} from "@/util/helper";
+import {postRegister} from "@/controller/api";
 
 // ✅ Schema kiểm tra dữ liệu
 const validator = yup.object({
-  username: yup.string().required('Username bắt buộc').max(4, 'Username tối đa 64 ký tự'),
+  username: yup.string().required('Username bắt buộc').max(64, 'Username tối đa 64 ký tự'),
   email: yup.string().email('Email không hợp lệ').required('Email bắt buộc'),
   phone: yup.string()
     .required('SĐT bắt buộc')
@@ -36,25 +37,16 @@ export default function Login() {
     handleSubmit,
     formState: { errors, isValid, isSubmitting }
   } = useForm({
-    resolver: yupResolver(validator)
+    resolver: yupResolver(validator),
+    mode: "onBlur"
   })
 
   const onSubmit = async (data: any) => {
     try {
-      const response = await fetch('http://127.0.0.1:8000/api/creator/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-      })
-
-      const result = await response.json()
-
-      if (!response.ok) {
-        // Nếu API trả lỗi (status ≠ 200)
-        console.error('Lỗi đăng ký:', result)
-        toast.error('Đăng ký thất bại')
+      await delay(1000)
+      const response = await postRegister(data);
+      if (!response.data.status) {
+        toast.error('Có lỗi sảy ra trong quá trình đăng kí')
         return
       }
       toast.success('Thêm mới thành công')
@@ -78,10 +70,10 @@ export default function Login() {
       <form onSubmit={handleSubmit(onSubmit)} noValidate>
         <div className="form_group mb-2">
           <label className="font-semibold mb-1">Username <Required/></label>
-          <input type="email" className="text-[17px] px-3 py-[10px] form_control" placeholder="lorem ..."
+          <input type="email" className="text-[17px] px-3 py-[10px] form_control" placeholder="Username ..."
                  {...register("username")}
           />
-          <InputErrorMessage message={errors.email?.message}/>
+          <InputErrorMessage message={errors.username?.message}/>
         </div>
 
         <div className="form_group mb-2">
@@ -138,7 +130,7 @@ export default function Login() {
         <button type="submit"
                 disabled={!isValid || isSubmitting}
                 className={`rounded block bg-myRed w-full text-white py-[10px] mb-3 mt-6 
-                  ${isValid ? 'bg-myRed opacity-100 cursor-pointer' : 'bg-myRed opacity-50 cursor-not-allowed'}
+                  ${!isValid || isSubmitting ? 'opacity-50 cursor-not-allowed' : 'opacity-100 cursor-pointer'}
                 `}>
           Đăng ký
         </button>
@@ -147,7 +139,7 @@ export default function Login() {
 
       {/* DebugPanel chỉ hiển thị ở dev */}
       {process.env.NODE_ENV === 'development' && (
-        <DebugPanel data={{}}/>
+        <DebugPanel data={{isValid, isSubmitting}}/>
       )}
     </div>
   )
