@@ -3,10 +3,8 @@ import {IconBack} from "@/component/Icon";
 import FieldPassword from "@/component/Form/Password";
 import Required from "@/component/Required/Index";
 import { useForm } from 'react-hook-form'
-import DebugPanel from "@/component/DebugPanel";
 import {delay} from "@/util/helper";
 import toast from "react-hot-toast";
-import {Exception} from "sass";
 
 interface ChangePasswordModalProps {
   visible: boolean
@@ -107,14 +105,6 @@ export default function UpdatePassword({ visible, onClose }: ChangePasswordModal
               />
             </div>
 
-            {/*<button*/}
-            {/*  type="submit"*/}
-            {/*  className="rounded block bg-myRed w-full text-white py-[10px] mb-3 mt-6 opacity-50 cursor-not-allowed"*/}
-            {/*  disabled={!isValid}*/}
-            {/*>*/}
-            {/*  Submit*/}
-            {/*</button>*/}
-
             <button type="submit"
                     disabled={!isValid || isSubmitting}
                     className={`rounded block bg-myRed w-full text-white py-[10px] mb-3 mt-6 
@@ -122,15 +112,7 @@ export default function UpdatePassword({ visible, onClose }: ChangePasswordModal
                 `}>
               Submit
             </button>
-
           </div>
-
-
-          {/* DebugPanel chỉ hiển thị ở dev */}
-          {process.env.NODE_ENV === 'development' && (
-            <DebugPanel data={{ isValid }} />
-          )}
-
         </form>
       }
     />

@@ -1,15 +1,11 @@
 "use client"
 
-import {CreateAt, Email, IconBack, Password} from "@/component/Icon";
+import {CreateAt, Email, Password} from "@/component/Icon";
 import {useEffect, useState} from "react";
 import toast from "react-hot-toast";
 import Link from "next/link";
-import {Modal} from "antd-mobile";
 import axiosInstance from "@/util/axiosInstance";
-import Required from "@/component/Required/Index";
-import FieldPassword from "@/component/Form/Password";
 import UpdatePassword from "@/component/Modal/UpdatePassword";
-import DebugPanel from "@/component/DebugPanel";
 
 type ProfileProps = {
   email: string
