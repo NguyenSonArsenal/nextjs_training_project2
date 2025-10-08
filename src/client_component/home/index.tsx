@@ -1,9 +1,10 @@
 "use client"
 
 import { useRouter } from 'next/navigation'
-import {getCookie, getManagementPath, setCookie} from '@/util/helper'
+import {deleteCookie, getCookie, getManagementPath, setCookie} from '@/util/helper'
 import {useEffect, useState} from "react";
 import {ACCESS_TOKEN_KEY} from "@/config/system";
+import Link from "next/link";
 
 export default function HomeClient() {
   const router = useRouter()
@@ -21,8 +22,8 @@ export default function HomeClient() {
   }, [])
 
   const logout = () => {
-    setCookie(ACCESS_TOKEN_KEY, '')
-    setCookie('email', '')
+    deleteCookie(ACCESS_TOKEN_KEY)
+    deleteCookie('email')
     router.push(getManagementPath('/login'))
   }
 
@@ -33,6 +34,11 @@ export default function HomeClient() {
   return (
     <div className="min-h-screen max_w_414px m-auto bg-white w-full h-full pt-[30px] md:px-[15px]">
       <div className="font-medium text-2xl mb-4">Chào mừng <strong className="italic text-myRed">{getCookie('email')}</strong> đến trang Home 🎉</div>
+
+      <Link href={getManagementPath('/profile')}>Profile</Link>
+      <br/>
+      <br/>
+      <br/>
 
       {/*<Link href="login" className="text-myRed">Logout</Link>*/}
 

@@ -76,3 +76,13 @@ export const IconBack = ({width = 18, height = 18, fillColor = "#333333"}) => (
     d="M12.9995 5.25L7.99951 10.25L12.9995 15.25" stroke="#000" strokeOpacity="0.45" strokeWidth="2"
     strokeLinecap="round" strokeLinejoin="round"></path></svg>
 )
+
+export default function SkeletonProfile() {
+  return (
+    <div className="p-4 animate-pulse">
+      <div className="h-6 bg-neutral-3 rounded w-1/2 mb-4" />
+      <div className="h-4 bg-neutral-3 rounded w-full mb-2" />
+      <div className="h-4 bg-neutral-3 rounded w-full mb-2" />
+    </div>
+  )
+}

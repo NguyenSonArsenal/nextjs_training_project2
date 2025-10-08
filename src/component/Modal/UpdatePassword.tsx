@@ -3,8 +3,9 @@ import {IconBack} from "@/component/Icon";
 import FieldPassword from "@/component/Form/Password";
 import Required from "@/component/Required/Index";
 import { useForm } from 'react-hook-form'
-import {delay} from "@/util/helper";
+import {delay, getManagementPath} from "@/util/helper";
 import toast from "react-hot-toast";
+import Header from "@/component/Header";
 
 interface ChangePasswordModalProps {
   visible: boolean
@@ -53,12 +54,7 @@ export default function UpdatePassword({ visible, onClose }: ChangePasswordModal
       onClose={onClose}
       content={
         <form onSubmit={handleSubmit(submitHandler)}>
-          <div className="flex items-center p-4 border-b border-neutral-4 relative">
-            <span className="cursor-pointer absolute left-4" onClick={onClose}>
-              <IconBack />
-            </span>
-            <h1 className="text-2xl text-center m-auto pb-3 font-medium">Thay đổi mật khẩu</h1>
-          </div>
+          <Header backHref={""} title={"Thay đổi mật khẩu"} onClose={onClose}/>
 
           <div className="p-4">
             <div className="leading-[22px] font-normal mb-4 text-center">
