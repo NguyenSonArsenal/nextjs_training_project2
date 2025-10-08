@@ -2,20 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/*:root {*/
-/*    --foreground-rgb: 0, 0, 0;*/
-/*    --background-start-rgb: 214, 219, 220;*/
-/*    --background-end-rgb: 255, 255, 255;*/
-/*}*/
-
-/*@media (prefers-color-scheme: dark) {*/
-/*    :root {*/
-/*        --foreground-rgb: 255, 255, 255;*/
-/*        --background-start-rgb: 0, 0, 0;*/
-/*        --background-end-rgb: 0, 0, 0;*/
-/*    }*/
-/*}*/
-
 /* Custom css tailwind library */
 @layer base {
     h1 {
@@ -54,8 +40,6 @@ a {
 *:focus {
     outline: none;
 }
-
-
 
 @media (prefers-color-scheme: dark) {
     html {
@@ -103,3 +87,29 @@ a {
 .line-clamp-2 {
     -webkit-line-clamp: 2!important;
 }
+
+/* custom modal antd */
+.adm-modal-content {
+  font-size: 14px;
+}
+.modalMobile {
+  z-index: 1002;
+  .adm-mask.adm-center-popup-mask {
+    max-width: 414px;
+    margin-left: calc((100% - 414px) / 2);
+  }
+  .adm-center-popup-wrap {
+    max-width: 414px;
+    width: 100%;
+    height: 100vh;
+    > div {
+      height: 100vh;
+      .adm-center-popup-body {
+        height: 100vh;
+        max-height: 100vh;
+        border-radius: 0;
+      }
+    }
+  }
+}
+/* End custom modal antd */

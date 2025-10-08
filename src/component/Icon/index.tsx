@@ -70,3 +70,9 @@ export const Password = ({width = 18, height = 18, fillColor = "#333333"}) => (
           strokeLinejoin="round"></path>
   </svg>
 )
+
+export const IconBack = ({width = 18, height = 18, fillColor = "#333333"}) => (
+  <svg width={width} height={height} viewBox="0 0 21 21" fill="none"><path
+    d="M12.9995 5.25L7.99951 10.25L12.9995 15.25" stroke="#000" strokeOpacity="0.45" strokeWidth="2"
+    strokeLinecap="round" strokeLinejoin="round"></path></svg>
+)
