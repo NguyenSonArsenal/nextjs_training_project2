@@ -8,14 +8,17 @@ interface PasswordInputProps {
   error?: string
   placeholder?: string
   className?: string
+  [key: string]: any
 }
 
 export default function FieldPassword({
                                         value,
                                         onChange,
                                         error,
+                                        ref,
                                         placeholder = '******',
-                                        className = ''
+                                        className = '',
+                                        ...rest
                                       }: PasswordInputProps) {
   const [showPassword, setShowPassword] = useState(false)
 
@@ -25,6 +28,8 @@ export default function FieldPassword({
            value={value}
            onChange={onChange}
            placeholder={placeholder}
+           ref={ref}
+           {...rest}
     />
     <div
       className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer text-[18px]"
