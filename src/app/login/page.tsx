@@ -7,6 +7,8 @@ import DebugPanel from "@/component/DebugPanel";
 import {EyeIcon, EyeSlashIcon} from "@/component/Icon";
 import { useRouter } from 'next/navigation'
 import {delay, setCookie} from "@/util/helper";
+import {postLogin} from "@/controller/api";
+import toast from "react-hot-toast";
 
 export default function Login() {
   const [email, setEmail] = useState("")
@@ -50,8 +52,8 @@ export default function Login() {
     setPassword(val);
     if (!val) {
       setErrorPassword("Vui lòng nhập password")
-    } else if (val.length < 6) {
-      setErrorPassword("Mật khẩu ít nhất 6 kí tự")
+    } else if (val.length < 4) {
+      setErrorPassword("Mật khẩu ít nhất 4 kí tự")
     } else if (/\s/.test(val)){
       setErrorPassword("Mật khẩu không được chứa khoảng trắng")
     } else {
@@ -64,32 +66,26 @@ export default function Login() {
     setErrorAuthen('')
     await delay(3000)
 
-    // console.log('submit: ', email, password);
     try {
-      const res = await fetch("https://reqres.in/api/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "x-api-key": "reqres-free-v1" // thêm API key vào đây
-        },
-        body: JSON.stringify({
-          email: "eve.holt@reqres.in",
-          password: "cityslicka"
-        })
+      const response = await postLogin({
+        email: email,
+        password: password
       });
 
-      const data = await res.json();
-      if (data.token) {
-        console.log("Đăng nhập thành công", data.token)
+      const data = await response.data;
+      console.log(data, '// data')
+      if (data.data.accessToken) {
+        console.log("Đăng nhập thành công")
         // ✅ Lưu token vào cookie (client-side)
-        setCookie('token', data.token)
-        setCookie('email', 'eve.holt@reqres.in')
-
+        setCookie('token', data.data.accessToken)
+        setCookie('email', email)
+        toast.success("Đăng nhập thành công")
         return router.push('/')
       }
-      setErrorAuthen("Đã có lỗi sảy ra vui lòng thử lại sau")
+      toast.error("Tài khoản không hợp lệ")
     } catch (err) {
-      setErrorAuthen("Có lỗi xảy ra khi đăng nhập")
+      console.log(err, '// err')
+      toast.error("Đã có lỗi sảy ra vui lòng thử lại sau")
     } finally {
       setAllowSubmit(true)
     }
