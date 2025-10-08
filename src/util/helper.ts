@@ -21,3 +21,6 @@ export const deleteCookie = (name: string) => {
 export function delay(ms: number) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
+
+export const getManagementPath = (path: string) =>
+  `${process.env.NEXT_PUBLIC_MANAGEMENT_PREFIX || ''}${path}`

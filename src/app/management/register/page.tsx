@@ -11,8 +11,9 @@ import * as yup from 'yup'
 import InputErrorMessage from "@/component/InputErrorMessage";
 import toast from 'react-hot-toast';
 import {useRouter} from "next/navigation";
-import {delay} from "@/util/helper";
+import {delay, getManagementPath} from "@/util/helper";
 import {postRegister} from "@/controller/api";
+
 
 // ✅ Schema kiểm tra dữ liệu
 const validator = yup.object({
@@ -33,6 +34,7 @@ export default function Login() {
   const router = useRouter()
 
   const {
+    setError,
     register,
     handleSubmit,
     formState: { errors, isValid, isSubmitting }
@@ -45,12 +47,21 @@ export default function Login() {
     try {
       await delay(1000)
       const response = await postRegister(data);
-      if (!response.data.status) {
-        toast.error('Có lỗi sảy ra trong quá trình đăng kí')
+      if (!response.data.success) {
+        const errors = response.data.errors || {}
+        if (errors.username) {
+          setError('username', { type: 'server', message: errors.username[0] })
+        }
+        if (errors.email) {
+          setError('email', { type: 'server', message: errors.email[0] })
+        }
+        if (errors.phone) {
+          setError('phone', { type: 'server', message: errors.phone[0] })
+        }
         return
       }
       toast.success('Thêm mới thành công')
-      return router.push('/login')
+      return router.push(getManagementPath('/login'))
     } catch (error) {
       console.error('Lỗi kết nối:', error)
       toast.error('Không thể kết nối đến máy chủ')

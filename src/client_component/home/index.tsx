@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from 'next/navigation'
-import { getCookie, setCookie } from '@/util/helper'
+import {getCookie, getManagementPath, setCookie} from '@/util/helper'
 import {useEffect, useState} from "react";
 
 export default function HomeClient() {
@@ -13,7 +13,7 @@ export default function HomeClient() {
   useEffect(() => {
     const token = getCookie('token')
     if (!token) {
-      router.push('/login')
+      router.push(getManagementPath('/login'))
     } else {
       setIsAuthenticated(true)
     }
@@ -23,7 +23,7 @@ export default function HomeClient() {
   const logout = () => {
     setCookie('token', '')
     setCookie('email', '')
-    router.push('login') // quay về trang login
+    router.push(getManagementPath('/login'))
   }
 
   if (isChecking) return null // hoặc loading spinner

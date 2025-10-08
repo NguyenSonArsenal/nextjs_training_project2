@@ -6,7 +6,7 @@ import {useEffect, useState} from "react";
 import DebugPanel from "@/component/DebugPanel";
 import {EyeIcon, EyeSlashIcon} from "@/component/Icon";
 import { useRouter } from 'next/navigation'
-import {delay, setCookie} from "@/util/helper";
+import {delay, getManagementPath, setCookie} from "@/util/helper";
 import {postLogin} from "@/controller/api";
 import toast from "react-hot-toast";
 
@@ -73,14 +73,11 @@ export default function Login() {
       });
 
       const data = await response.data;
-      console.log(data, '// data')
       if (data.data.accessToken) {
-        console.log("Đăng nhập thành công")
-        // ✅ Lưu token vào cookie (client-side)
         setCookie('token', data.data.accessToken)
         setCookie('email', email)
         toast.success("Đăng nhập thành công")
-        return router.push('/')
+        return router.push(getManagementPath(''))
       }
       toast.error("Tài khoản không hợp lệ")
     } catch (err) {
@@ -121,8 +118,8 @@ export default function Login() {
         <button type={"button"}
                 className={`rounded block bg-myRed w-full text-white py-[10px] mb-3 mt-6
                   ${
-                    allowSubmit ? 'opacity-100 cursor-pointer' : 'opacity-50 cursor-not-allowed'
-                  } 
+                  allowSubmit ? 'opacity-100 cursor-pointer' : 'opacity-50 cursor-not-allowed'
+                } 
                 `}
 
                 disabled={!allowSubmit}
