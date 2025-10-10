@@ -1,9 +1,8 @@
 import { Modal } from 'antd-mobile'
-import {IconBack} from "@/component/Icon";
-import FieldPassword from "@/component/Form/Password";
+import FieldPassword from "@/component/Form/FieldPassword";
 import Required from "@/component/Required/Index";
 import { useForm } from 'react-hook-form'
-import {delay, getManagementPath} from "@/util/helper";
+import {delay} from "@/util/helper";
 import toast from "react-hot-toast";
 import Header from "@/component/Header";
 
