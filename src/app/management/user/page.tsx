@@ -56,7 +56,7 @@ export default function ListUser() {
                 </div>
               </div>
               <div>
-                <Link href={'#'}><IconRight /></Link>
+                <Link href={{ pathname: 'user/show', query: { id: user.id } }}><IconRight /></Link>
               </div>
             </div>
           ))}

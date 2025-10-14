@@ -1,7 +1,7 @@
-import axiosInstance from '@/util/axiosInstance';
+import { getAxiosInstance } from '@/util/axiosInstance';
 
 export const fetchUsers = async () => {
-  const res = await axiosInstance.get('user')
+  const res = await getAxiosInstance().get('user')
   const data = res.data
 
   if (!data.success) {

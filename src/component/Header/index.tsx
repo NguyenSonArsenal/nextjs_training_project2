@@ -15,7 +15,7 @@ export default function Header({
                                         onClose,
                                      }: MobileHeaderProps) {
   return (
-    <div className={`flex items-center p-4 border-b border-neutral-4 relative ${className}`}>
+    <div className={`flex items-center pb-2 border-b border-neutral-4 relative ${className}`}>
       <span className="cursor-pointer absolute left-4">
         {backHref ? (
           <Link href={backHref}>

@@ -22,5 +22,7 @@ export async function delay(ms: number) {
   return new Promise(resolve => setTimeout(resolve, ms))
 }
 
-export const getManagementPath = (path: string) =>
-  `${process.env.NEXT_PUBLIC_MANAGEMENT_PREFIX || ''}${path}`
+export const getManagementPath = (path: string) => {
+  const normalizedPath = path.startsWith('/') ? path : `/${path}`;
+  return `${process.env.NEXT_PUBLIC_MANAGEMENT_PREFIX || ''}${normalizedPath}`;
+};

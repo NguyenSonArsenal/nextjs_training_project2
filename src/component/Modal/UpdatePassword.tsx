@@ -1,6 +1,6 @@
 import { Modal } from 'antd-mobile'
 import FieldPassword from "@/component/Form/FieldPassword";
-import Required from "@/component/Required/Index";
+import Required from "@/component/Required";
 import { useForm } from 'react-hook-form'
 import {delay} from "@/util/helper";
 import toast from "react-hot-toast";

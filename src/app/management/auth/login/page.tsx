@@ -1,7 +1,6 @@
 "use client"
 
 import Link from "next/link";
-import Required from "@/component/Required/Index";
 import {useEffect, useState} from "react";
 import DebugPanel from "@/component/DebugPanel";
 import {EyeIcon, EyeSlashIcon} from "@/component/Icon";
@@ -10,6 +9,7 @@ import {delay, getManagementPath, setCookie} from "@/util/helper";
 import {postLogin} from "@/controller/api";
 import toast from "react-hot-toast";
 import {ACCESS_TOKEN_KEY} from "@/config/system";
+import Required from "@/component/Required";
 
 export default function Login() {
   const [email, setEmail] = useState("")

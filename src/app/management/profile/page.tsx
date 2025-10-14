@@ -4,9 +4,9 @@ import  {CreateAt, Email, Password} from "@/component/Icon";
 import {useEffect, useState} from "react";
 import toast from "react-hot-toast";
 import Link from "next/link";
-import axiosInstance from "@/util/axiosInstance";
+import { getAxiosInstance } from '@/util/axiosInstance';
 import UpdatePassword from "@/component/Modal/UpdatePassword";
-import {delay, getManagementPath} from "@/util/helper";
+import {getManagementPath} from "@/util/helper";
 import Header from "@/component/Header";
 import LoadingScroll from "@/component/LoadingScroll";
 
@@ -22,8 +22,8 @@ export default function Profile() {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const res = await axiosInstance.get('creator/profile');
-        const data = await res.data
+        const res = await getAxiosInstance().get('creator/profile');
+        const data = res.data
         if (!data.success) {
           toast.error('Không thể tải thông tin cá nhân')
           return

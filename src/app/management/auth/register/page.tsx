@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link";
-import Required from "@/component/Required/Index";
+import Required from "@/component/Required";
 import DebugPanel from "@/component/DebugPanel";
 import {EyeIcon, EyeSlashIcon} from "@/component/Icon";
 import {useState} from "react";
