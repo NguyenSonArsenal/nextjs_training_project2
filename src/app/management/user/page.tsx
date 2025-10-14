@@ -7,6 +7,10 @@ import Header from "@/component/Header";
 import LoadingScroll from "@/component/LoadingScroll";
 import {useQuery} from "@tanstack/react-query";
 import {listUser} from "@/util/api/user";
+import {DeleteOutline, RightOutline} from "antd-mobile-icons";
+import UpdatePassword from "@/component/Modal/UpdatePassword";
+import ConfirmDelete from "@/component/Modal/ConfirmDelete";
+import {useState} from "react";
 
 interface User {
   id: number
@@ -18,6 +22,9 @@ interface User {
 }
 
 export default function ListUser() {
+
+  const [showModalConfirmDelete, setShowModalConfirmDelete] = useState<boolean>(false);
+
   const {
     data: users,
     isLoading,
@@ -27,6 +34,11 @@ export default function ListUser() {
     queryKey: ['users'],
     queryFn: listUser,
   })
+
+  const handleDelete = (userId: number) => {
+    console.log('user id', userId);
+    setShowModalConfirmDelete(true)
+  }
 
   return (
     <div className="min-h-screen max_w_414px m-auto bg-white w-full h-full pt-[15px] md:px-[15px] pb-[6px]">
@@ -55,11 +67,20 @@ export default function ListUser() {
                   <div>{user.username}</div>
                 </div>
               </div>
-              <div>
-                <Link href={{ pathname: 'user/show', query: { id: user.id } }}><IconRight /></Link>
+              <div className={"flex items-center"}>
+                <DeleteOutline
+                  className={"mr-2 cursor-pointer text-red-500 hover:text-red-700"}
+                  onClick={() => handleDelete(user.id)}
+                />
+                <Link href={{ pathname: 'user/show', query: { id: user.id } }}>
+                  <RightOutline className={"text-black"}/>
+                </Link>
               </div>
             </div>
           ))}
+
+
+          <ConfirmDelete visible={showModalConfirmDelete} onClose={() => setShowModalConfirmDelete(false)} />
         </main>
         )
       }
