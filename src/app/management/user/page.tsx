@@ -6,7 +6,7 @@ import {getManagementPath} from "@/util/helper";
 import Header from "@/component/Header";
 import LoadingScroll from "@/component/LoadingScroll";
 import {useQuery} from "@tanstack/react-query";
-import {fetchUsers} from "@/util/api/user";
+import {listUser} from "@/util/api/user";
 
 interface User {
   id: number
@@ -25,7 +25,7 @@ export default function ListUser() {
     error,
   } = useQuery<User[]>({
     queryKey: ['users'],
-    queryFn: fetchUsers,
+    queryFn: listUser,
   })
 
   return (
