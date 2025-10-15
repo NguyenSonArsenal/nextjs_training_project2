@@ -25,12 +25,22 @@ export default function ConfirmDelete({ visible, onClose, onConfirm, isDeleting 
           </div>
 
           <button
-            onClick={onConfirm}
+            onClick={() => {
+              if (!isDeleting) // chặn double click
+                onConfirm()
+            }}
             className={`w-full py-2 rounded text-[16px] font-medium transition ${
-              isDeleting ? 'bg-gray-400 text-white' : 'bg-[#EE3244] text-white hover:bg-[#d6283b]'
+              isDeleting ? 'bg-gray-400 text-white cursor-not-allowed' : 'bg-[#EE3244] text-white hover:bg-[#d6283b]'
             }`}
           >
-            {isDeleting ? 'Đang xóa...' : 'Xác nhận xóa'}
+            {isDeleting ? (
+              <div className="flex items-center justify-center gap-2">
+                <span className="loader-spinner w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+                Đang xóa...
+              </div>
+            ) : (
+              'Xác nhận xóa'
+            )}
           </button>
 
           <div

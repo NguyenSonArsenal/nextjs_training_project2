@@ -24,6 +24,5 @@ export const showUser = async (id: number) => {
 
 export const deleteUser = async (id: number) => {
   const res = await getAxiosInstance().delete(`user/${id}`)
-  await delay(1000)
   return res.data.success
 }

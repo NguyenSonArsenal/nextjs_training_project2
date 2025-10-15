@@ -4,7 +4,7 @@ import Link from "next/link";
 import {getManagementPath} from "@/util/helper";
 import Header from "@/component/Header";
 import LoadingScroll from "@/component/LoadingScroll";
-import {useQuery, useQueryClient} from "@tanstack/react-query";
+import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import {deleteUser, listUser} from "@/util/api/user";
 import {DeleteOutline, RightOutline} from "antd-mobile-icons";
 import ConfirmDelete from "@/component/Modal/ConfirmDelete";
@@ -26,7 +26,7 @@ export default function ListUser() {
 
   const [selectedUserId, setSelectedUserId] = useState<number | null>(null)
   const [showModalConfirmDelete, setShowModalConfirmDelete] = useState<boolean>(false);
-  const [isDeleting, setIsDeleting] = useState(false)
+  // const [isDeleting, setIsDeleting] = useState(false)
 
   const {
     data: users,
@@ -43,20 +43,32 @@ export default function ListUser() {
     setSelectedUserId(userId)
   }
 
-  const handleConfirmDelete = async () => {
-    if (!selectedUserId) return
-    setIsDeleting(true)
-    try {
-      await deleteUser(selectedUserId)
+  const { mutate: confirmDelete, isPending: isDeleting } = useMutation({
+    mutationFn: (id: number) => deleteUser(id),
+    onMutate: () => {
+      console.log('click when deleting')
+      if (isDeleting) return // Nếu đang xóa mà click tiếp btn xóa thì sẽ vào đây
+    },
+    onSuccess: () => {
       toast.success('Đã xóa user thành công')
       queryClient.invalidateQueries({ queryKey: ['users'] })
-    } catch (err) {
-      toast.error('Xóa thất bại')
-    } finally {
       setShowModalConfirmDelete(false)
-      setSelectedUserId(null)
-      setIsDeleting(false)
-    }
+      resetDeleteState()
+    },
+    onError: () => {
+      toast.error('Xóa thất bại')
+      resetDeleteState()
+    },
+  })
+
+  const resetDeleteState = () => {
+    setShowModalConfirmDelete(false)
+    setSelectedUserId(null)
+  }
+
+  const handleConfirmDelete = () => {
+    if (!selectedUserId) return
+    confirmDelete(selectedUserId)
   }
 
   return (
