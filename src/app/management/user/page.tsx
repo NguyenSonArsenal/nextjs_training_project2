@@ -1,16 +1,16 @@
 "use client"
 
-import {IconRight} from "@/component/Icon";
 import Link from "next/link";
 import {getManagementPath} from "@/util/helper";
 import Header from "@/component/Header";
 import LoadingScroll from "@/component/LoadingScroll";
-import {useQuery} from "@tanstack/react-query";
-import {listUser} from "@/util/api/user";
+import {useQuery, useQueryClient} from "@tanstack/react-query";
+import {deleteUser, listUser} from "@/util/api/user";
 import {DeleteOutline, RightOutline} from "antd-mobile-icons";
-import UpdatePassword from "@/component/Modal/UpdatePassword";
 import ConfirmDelete from "@/component/Modal/ConfirmDelete";
 import {useState} from "react";
+import DebugPanel from "@/component/DebugPanel";
+import toast from 'react-hot-toast'
 
 interface User {
   id: number
@@ -22,8 +22,9 @@ interface User {
 }
 
 export default function ListUser() {
-
+  const [selectedUserId, setSelectedUserId] = useState<number | null>(null)
   const [showModalConfirmDelete, setShowModalConfirmDelete] = useState<boolean>(false);
+  const queryClient = useQueryClient()
 
   const {
     data: users,
@@ -35,9 +36,23 @@ export default function ListUser() {
     queryFn: listUser,
   })
 
-  const handleDelete = (userId: number) => {
-    console.log('user id', userId);
+  const openDeleteModal = (userId: number) => {
     setShowModalConfirmDelete(true)
+    setSelectedUserId(userId)
+  }
+
+  const handleConfirmDelete = async () => {
+    if (!selectedUserId) return
+    try {
+      await deleteUser(selectedUserId)
+      toast.success('Đã xóa user thành công')
+      queryClient.invalidateQueries({ queryKey: ['users'] })
+    } catch (err) {
+      toast.error('Xóa thất bại')
+    } finally {
+      setShowModalConfirmDelete(false)
+      setSelectedUserId(null)
+    }
   }
 
   return (
@@ -70,7 +85,7 @@ export default function ListUser() {
               <div className={"flex items-center"}>
                 <DeleteOutline
                   className={"mr-2 cursor-pointer text-red-500 hover:text-red-700"}
-                  onClick={() => handleDelete(user.id)}
+                  onClick={() => openDeleteModal(user.id)}
                 />
                 <Link href={{ pathname: 'user/show', query: { id: user.id } }}>
                   <RightOutline className={"text-black"}/>
@@ -79,11 +94,20 @@ export default function ListUser() {
             </div>
           ))}
 
-
-          <ConfirmDelete visible={showModalConfirmDelete} onClose={() => setShowModalConfirmDelete(false)} />
+          <ConfirmDelete
+            visible={showModalConfirmDelete}
+            onConfirm={handleConfirmDelete}
+            onClose={() => setShowModalConfirmDelete(false)}
+          />
         </main>
         )
       }
+
+
+      {/* DebugPanel chỉ hiển thị ở dev */}
+      {process.env.NODE_ENV === 'development' && (
+        <DebugPanel data={{ selectedUserId, showModalConfirmDelete }} />
+      )}
     </div>
   )
 }

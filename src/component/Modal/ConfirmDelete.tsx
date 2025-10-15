@@ -1,47 +1,35 @@
 import { Modal } from 'antd-mobile'
-import Header from "@/component/Header";
-import Required from "@/component/Required";
-import FieldPassword from "@/component/Form/FieldPassword";
 
-interface ChangePasswordModalProps {
+interface ConfirmDeleteProps {
   visible: boolean
   onClose: () => void
-  onSubmit?: (data: FormValues) => void
+  onConfirm: () => void
 }
 
-interface FormValues {
-  current_password: string
-  new_password: string
-  new_password_confirmation: string
-}
-
-export default function ConfirmDelete({ visible, onClose }: ChangePasswordModalProps) {
+export default function ConfirmDelete({ visible, onClose, onConfirm  }: ConfirmDeleteProps) {
   return (
     <Modal
-      visible={visible}
       closeOnAction
-      onClose={onClose}
       showCloseButton
+      visible={visible}
+      onClose={onClose}
       content={
         <div className="p-4">
-          {/* Tiêu đề */}
           <div className="flex items-center justify-center mb-4">
             <span className="text-[18px] font-semibold text-[#333]">Xóa bình luận</span>
           </div>
 
-          {/* Nội dung */}
           <div className="text-center text-[15px] text-[#555] mb-6">
-            Bạn có chắc chắn muốn xóa bình luận này không?
+            Bạn có chắc chắn muốn xóa không?
           </div>
 
-          {/* Nút xác nhận */}
           <button
             className="w-full bg-[#EE3244] text-white py-2 rounded text-[16px] font-medium hover:bg-[#d6283b] transition"
+            onClick={onConfirm}
           >
             Xác nhận xóa
           </button>
 
-          {/* Nút hủy */}
           <div
             onClick={onClose}
             className="text-[16px] text-[#EE3244] text-center mt-4 cursor-pointer hover:underline"
@@ -51,6 +39,5 @@ export default function ConfirmDelete({ visible, onClose }: ChangePasswordModalP
         </div>
       }
     />
-
   )
 }

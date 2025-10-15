@@ -20,3 +20,9 @@ export const showUser = async (id: number) => {
 
   return data.data
 }
+
+export const deleteUser = async (id: number) => {
+  const res = await getAxiosInstance().delete(`user/${id}`)
+  console.log(res, '//res')
+  return res.data.success
+}
