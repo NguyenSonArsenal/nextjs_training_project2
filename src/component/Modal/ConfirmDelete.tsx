@@ -4,9 +4,10 @@ interface ConfirmDeleteProps {
   visible: boolean
   onClose: () => void
   onConfirm: () => void
+  isDeleting: boolean
 }
 
-export default function ConfirmDelete({ visible, onClose, onConfirm  }: ConfirmDeleteProps) {
+export default function ConfirmDelete({ visible, onClose, onConfirm, isDeleting  }: ConfirmDeleteProps) {
   return (
     <Modal
       closeOnAction
@@ -24,10 +25,12 @@ export default function ConfirmDelete({ visible, onClose, onConfirm  }: ConfirmD
           </div>
 
           <button
-            className="w-full bg-[#EE3244] text-white py-2 rounded text-[16px] font-medium hover:bg-[#d6283b] transition"
             onClick={onConfirm}
+            className={`w-full py-2 rounded text-[16px] font-medium transition ${
+              isDeleting ? 'bg-gray-400 text-white' : 'bg-[#EE3244] text-white hover:bg-[#d6283b]'
+            }`}
           >
-            Xác nhận xóa
+            {isDeleting ? 'Đang xóa...' : 'Xác nhận xóa'}
           </button>
 
           <div

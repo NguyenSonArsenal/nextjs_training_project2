@@ -22,9 +22,11 @@ interface User {
 }
 
 export default function ListUser() {
+  const queryClient = useQueryClient()
+
   const [selectedUserId, setSelectedUserId] = useState<number | null>(null)
   const [showModalConfirmDelete, setShowModalConfirmDelete] = useState<boolean>(false);
-  const queryClient = useQueryClient()
+  const [isDeleting, setIsDeleting] = useState(false)
 
   const {
     data: users,
@@ -43,6 +45,7 @@ export default function ListUser() {
 
   const handleConfirmDelete = async () => {
     if (!selectedUserId) return
+    setIsDeleting(true)
     try {
       await deleteUser(selectedUserId)
       toast.success('Đã xóa user thành công')
@@ -52,6 +55,7 @@ export default function ListUser() {
     } finally {
       setShowModalConfirmDelete(false)
       setSelectedUserId(null)
+      setIsDeleting(false)
     }
   }
 
@@ -98,6 +102,7 @@ export default function ListUser() {
             visible={showModalConfirmDelete}
             onConfirm={handleConfirmDelete}
             onClose={() => setShowModalConfirmDelete(false)}
+            isDeleting={isDeleting}
           />
         </main>
         )
