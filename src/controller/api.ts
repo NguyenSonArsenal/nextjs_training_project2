@@ -1,12 +1,13 @@
 import { getAxiosInstance } from '@/util/axiosInstance';
 
 export const postRegister = async (data: any) => {
-  return getAxiosInstance().post('creator/register', data);
+  const res = await getAxiosInstance().post('creator/register', data);
+  return res
 };
 
 export const postLogin = async (data: {
   email: string,
   password: string,
 }) => {
-  return getAxiosInstance().post('creator/login', data);
+  return await getAxiosInstance().post('creator/login', data);
 };

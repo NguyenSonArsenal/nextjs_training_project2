@@ -75,7 +75,18 @@ export default function ListUser() {
     <div className="min-h-screen max_w_414px m-auto bg-white w-full h-full pt-[15px] md:px-[15px] pb-[6px]">
       <Header title={"Danh sách user"} backHref={getManagementPath('')}/>
       <br/>
+
+      <div className="flex justify-end mb-4">
+        <Link
+          href="user/create"
+          className="px-4 py-2 bg-[#EE3244] text-white rounded hover:bg-[#d6283b] transition font-medium"
+        >
+          Thêm mới
+        </Link>
+      </div>
+
       <br/>
+
       <input type="text" className={"form_control h-[30px] bg-[#e5e5e5]"} placeholder="Username, email, phone ..."/>
 
       {
