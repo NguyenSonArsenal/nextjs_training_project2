@@ -13,6 +13,7 @@ import toast from 'react-hot-toast';
 import {useRouter} from "next/navigation";
 import {delay, getManagementPath} from "@/util/helper";
 import {postRegister} from "@/controller/api";
+import LoadingButton from "@/component/Form/LoadingButton";
 
 
 // ✅ Schema kiểm tra dữ liệu
@@ -45,7 +46,6 @@ export default function Login() {
 
   const onSubmit = async (data: any) => {
     try {
-      await delay(1000)
       const response = await postRegister(data);
       if (!response.data.success) {
         const errors = response.data.errors || {}
@@ -61,7 +61,7 @@ export default function Login() {
         return
       }
       toast.success('Thêm mới thành công')
-      return router.push(getManagementPath('/login'))
+      return router.push(getManagementPath('/auth/login'))
     } catch (error) {
       console.error('Lỗi kết nối:', error)
       toast.error('Không thể kết nối đến máy chủ')
@@ -138,13 +138,12 @@ export default function Login() {
           <InputErrorMessage message={errors.password_confirmation?.message}/>
         </div>
 
-        <button type="submit"
-                disabled={!isValid || isSubmitting}
-                className={`rounded block bg-myRed w-full text-white py-[10px] mb-3 mt-6 
-                  ${!isValid || isSubmitting ? 'opacity-50 cursor-not-allowed' : 'opacity-100 cursor-pointer'}
-                `}>
+        <LoadingButton
+          isSubmitting={isSubmitting}
+          disabled={!isValid}
+        >
           Đăng ký
-        </button>
+        </LoadingButton>
       </form>
 
 

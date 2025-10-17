@@ -10,6 +10,7 @@ import {postLogin} from "@/controller/api";
 import toast from "react-hot-toast";
 import {ACCESS_TOKEN_KEY} from "@/config/system";
 import Required from "@/component/Required";
+import LoadingButton from "@/component/Form/LoadingButton";
 
 export default function Login() {
   const [email, setEmail] = useState("")
@@ -18,7 +19,8 @@ export default function Login() {
   const [errorEmail, setErrorEmail] = useState('')
   const [errorPassword, setErrorPassword] = useState('')
   const [errorAuthen, setErrorAuthen] = useState('')
-  const [allowSubmit, setAllowSubmit] = useState(false)
+  const [allowSubmit, setAllowSubmit] = useState(false) // check pass all validate input
+  const [isSubmitting, setIsSubmitting] = useState(false) //
 
   const router = useRouter()
 
@@ -62,9 +64,9 @@ export default function Login() {
   }
 
   const submitForm = async () => {
+    setIsSubmitting(true)
     setAllowSubmit(false)
     setErrorAuthen('')
-    await delay(1000)
 
     try {
       const response = await postLogin({
@@ -84,7 +86,16 @@ export default function Login() {
       console.log(err, '// err')
       toast.error("Đã có lỗi sảy ra vui lòng thử lại sau")
     } finally {
+      setIsSubmitting(false)
       setAllowSubmit(true)
+    }
+  }
+
+  const handlePreSubmitForm = async (e: React.FormEvent<HTMLFormElement>) => {
+    console.log('handlePreSubmitForm')
+    e.preventDefault()
+    if (allowSubmit && !isSubmitting) {
+      submitForm()
     }
   }
 
@@ -93,7 +104,7 @@ export default function Login() {
       <h1 className="mb-2">Đăng nhập</h1>
       <div className="mb-6">Bạn chưa có tài khoản?<Link href={"register"} className="text-myRed"> Đăng ký</Link></div>
 
-      <form action="">
+      <form onSubmit={handlePreSubmitForm}>
         {errorAuthen && <div className={'text-myRed mb-4 text-[12px]'}>{errorAuthen}</div>}
         <div className="form_group mb-2">
           <label className="font-semibold mb-1">Email <Required /></label>
@@ -115,18 +126,14 @@ export default function Login() {
           </div>
           {errorPassword && <div className={'text-myRed mt-1 text-[12px]'}>{errorPassword}</div>}
         </div>
-        <button type={"button"}
-                className={`rounded block bg-myRed w-full text-white py-[10px] mb-3 mt-6
-                  ${
-                  allowSubmit ? 'opacity-100 cursor-pointer' : 'opacity-50 cursor-not-allowed'
-                } 
-                `}
 
-                disabled={!allowSubmit}
-                onClick={submitForm}
+        <LoadingButton
+          isSubmitting={isSubmitting}
+          disabled={!allowSubmit}
         >
           Đăng nhập
-        </button>
+        </LoadingButton>
+
         <Link href={"#"} className="text-myRed text-right block">Quên mật khẩu</Link>
       </form>
 

@@ -11,6 +11,7 @@ module.exports = {
         extend: {
             colors: {
                 myRed: "#ff0000",
+                myRed_hover: "#d6283b",
             },
         },
     },
