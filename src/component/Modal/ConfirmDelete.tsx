@@ -1,4 +1,5 @@
 import { Modal } from 'antd-mobile'
+import {IconBack, IconWarning} from "@/component/Icon";
 
 interface ConfirmDeleteProps {
   visible: boolean
@@ -11,11 +12,12 @@ export default function ConfirmDelete({ visible, onClose, onConfirm, isDeleting 
   return (
     <Modal
       closeOnAction
-      showCloseButton
+      showCloseButton={false}
       visible={visible}
       onClose={onClose}
       content={
-        <div className="p-4">
+        <div className="">
+          <IconWarning className={"text-center m-auto block mb-1"} width={48} height={48}/>
           <div className="flex items-center justify-center mb-4">
             <span className="text-[18px] font-semibold text-[#333]">Xóa bình luận</span>
           </div>
@@ -29,7 +31,7 @@ export default function ConfirmDelete({ visible, onClose, onConfirm, isDeleting 
               if (!isDeleting) // chặn double click
                 onConfirm()
             }}
-            className={`w-full py-2 rounded text-[16px] font-medium transition ${
+            className={`w-full py-2 rounded text-[16px] font-medium transition py-3 ${
               isDeleting ? 'bg-gray-400 text-white cursor-not-allowed' : 'bg-[#EE3244] text-white hover:bg-[#d6283b]'
             }`}
           >
