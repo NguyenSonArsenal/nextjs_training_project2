@@ -10,7 +10,8 @@ import {postLogin} from "@/controller/api";
 import toast from "react-hot-toast";
 import {ACCESS_TOKEN_KEY} from "@/config/system";
 import Required from "@/component/Form/Required";
-import LoadingButton from "@/component/Form/LoadingButton";
+import ButtonLoading from "@/component/Form/ButtonLoading";
+import {useUserStore} from "@/store/useUserStore";
 
 export default function Login() {
   const [email, setEmail] = useState("")
@@ -23,6 +24,7 @@ export default function Login() {
   const [isSubmitting, setIsSubmitting] = useState(false) //
 
   const router = useRouter()
+  const setUser = useUserStore((state) => state.setUser)
 
   useEffect(() => {
     if (!email && !password) {
@@ -78,6 +80,7 @@ export default function Login() {
       if (data.success) {
         setCookie(ACCESS_TOKEN_KEY, data.data.accessToken)
         setCookie('email', email)
+        setUser(data.data)
         toast.success("Đăng nhập thành công")
         return router.push(getManagementPath(''))
       }
@@ -92,7 +95,6 @@ export default function Login() {
   }
 
   const handlePreSubmitForm = async (e: React.FormEvent<HTMLFormElement>) => {
-    console.log('handlePreSubmitForm')
     e.preventDefault()
     if (allowSubmit && !isSubmitting) {
       submitForm()
@@ -127,12 +129,12 @@ export default function Login() {
           {errorPassword && <div className={'text-myRed mt-1 text-[12px]'}>{errorPassword}</div>}
         </div>
 
-        <LoadingButton
+        <ButtonLoading
           isSubmitting={isSubmitting}
           disabled={!allowSubmit}
         >
           Đăng nhập
-        </LoadingButton>
+        </ButtonLoading>
 
         <Link href={"#"} className="text-myRed text-right block">Quên mật khẩu</Link>
       </form>

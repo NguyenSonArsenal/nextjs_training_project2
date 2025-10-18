@@ -13,7 +13,7 @@ import toast from 'react-hot-toast';
 import {useRouter} from "next/navigation";
 import {delay, getManagementPath} from "@/util/helper";
 import {postRegister} from "@/controller/api";
-import LoadingButton from "@/component/Form/LoadingButton";
+import ButtonLoading from "@/component/Form/ButtonLoading";
 
 
 // ✅ Schema kiểm tra dữ liệu
@@ -145,12 +145,12 @@ export default function Login() {
           <InputErrorMessage message={errors.password_confirmation?.message}/>
         </div>
 
-        <LoadingButton
+        <ButtonLoading
           isSubmitting={isSubmitting}
           disabled={!isValid}
         >
           Đăng ký
-        </LoadingButton>
+        </ButtonLoading>
       </form>
 
 

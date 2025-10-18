@@ -3,8 +3,10 @@
 import { useRouter } from 'next/navigation'
 import {deleteCookie, getCookie, getManagementPath} from '@/util/helper'
 import {useEffect, useState} from "react";
-import {ACCESS_TOKEN_KEY} from "@/config/system";
+import {ACCESS_TOKEN_KEY, USER_AUTH_STORAGE_KEY} from "@/config/system";
 import Link from "next/link";
+import ButtonDanger from "@/component/Form/ButtonDanger";
+import {useUserStore} from "@/store/useUserStore";
 
 export default function HomeClient() {
   const router = useRouter()
@@ -24,6 +26,7 @@ export default function HomeClient() {
   const logout = () => {
     deleteCookie(ACCESS_TOKEN_KEY)
     deleteCookie('email')
+    useUserStore.getState().clearUser()
     router.push(getManagementPath('/auth/login'))
   }
 
@@ -38,12 +41,7 @@ export default function HomeClient() {
       <Link className={'mb-4 block'} href={getManagementPath('/profile')}>Profile</Link>
       <Link className={'mb-4 block'} href={getManagementPath('/user')}>User</Link>
 
-      <button
-        onClick={logout}
-        className="bg-myRed text-white px-4 py-2 rounded"
-      >
-        Logout
-      </button>
+      <ButtonDanger type="button" handleSubmit={logout} className={"inline-block"}>Logout</ButtonDanger>
     </div>
   )
 }

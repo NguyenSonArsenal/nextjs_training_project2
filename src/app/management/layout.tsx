@@ -8,7 +8,6 @@ const inter = Inter({subsets: ['latin']})
 export default function ManagementLayout({children}: { children: React.ReactNode }) {
   return (
     <div className={inter.className}>
-      <InitUser />
       <Toaster position="top-right"/>
       {children}
     </div>
