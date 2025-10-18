@@ -36,15 +36,17 @@ export default function Login() {
 
   const {
     setError,
+    clearErrors,
     register,
     handleSubmit,
     formState: { errors, isValid, isSubmitting }
   } = useForm({
     resolver: yupResolver(validator),
-    mode: "onBlur"
+    mode: "onChange"
   })
 
   const onSubmit = async (data: any) => {
+    await delay(1000)
     try {
       const response = await postRegister(data);
       if (!response.data.success) {
@@ -70,7 +72,8 @@ export default function Login() {
 
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const onlyNumbers = e.target.value.replace(/\D/g, '') // Xóa mọi ký tự không phải số
-    e.target.value = onlyNumbers.slice(0, 11  )
+    e.target.value = onlyNumbers.slice(0, 11)
+    clearErrors("phone") // ✅ clear lỗi server khi người dùng nhập lại
   }
 
   return (
@@ -98,9 +101,13 @@ export default function Login() {
         <div className="form_group mb-2">
           <label className="font-semibold mb-1">SĐT <Required/></label>
           <input type="text" className="text-[17px] px-3 py-[10px] form_control"
-                 placeholder="0964000111" {...register("phone")}
+                 placeholder="0989000xxx" {...register("phone")}
                  pattern="\d*" inputMode="numeric"
-                 onChange={handlePhoneChange}
+                 onChange={(e) => {
+                   handlePhoneChange(e)
+                   const { onChange } = register("phone") // ✅ Gọi luôn onChange gốc để RHF nhận biết value thay đổi, ignore onchange custom override onchange rhf
+                   onChange(e)
+                 }}
           />
           <InputErrorMessage message={errors.phone?.message}/>
         </div>
