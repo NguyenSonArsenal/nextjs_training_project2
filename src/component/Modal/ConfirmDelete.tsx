@@ -16,7 +16,7 @@ export default function ConfirmDelete({ visible, onClose, onConfirm, isDeleting 
       visible={visible}
       onClose={onClose}
       content={
-        <div className="">
+        <div className={'pb-2'}>
           <IconWarning className={"text-center m-auto block mb-1"} width={48} height={48}/>
           <div className="flex items-center justify-center mb-4">
             <span className="text-[18px] font-semibold text-[#333]">Xóa bình luận</span>
@@ -47,7 +47,7 @@ export default function ConfirmDelete({ visible, onClose, onConfirm, isDeleting 
 
           <div
             onClick={onClose}
-            className="text-[16px] text-[#EE3244] text-center mt-4 cursor-pointer hover:underline"
+            className="text-[16px] text-[#EE3244] text-center mt-4 cursor-pointer"
           >
             Hủy bỏ
           </div>

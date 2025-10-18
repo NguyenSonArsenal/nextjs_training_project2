@@ -38,8 +38,6 @@ export default function HomeClient() {
       <Link className={'mb-4 block'} href={getManagementPath('/profile')}>Profile</Link>
       <Link className={'mb-4 block'} href={getManagementPath('/user')}>User</Link>
 
-      {/*<Link href="login" className="text-myRed">Logout</Link>*/}
-
       <button
         onClick={logout}
         className="bg-myRed text-white px-4 py-2 rounded"

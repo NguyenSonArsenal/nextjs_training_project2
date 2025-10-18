@@ -9,7 +9,7 @@ import {delay, getManagementPath, setCookie} from "@/util/helper";
 import {postLogin} from "@/controller/api";
 import toast from "react-hot-toast";
 import {ACCESS_TOKEN_KEY} from "@/config/system";
-import Required from "@/component/Required";
+import Required from "@/component/Form/Required";
 import LoadingButton from "@/component/Form/LoadingButton";
 
 export default function Login() {

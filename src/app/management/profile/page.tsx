@@ -1,42 +1,17 @@
 "use client"
 
 import  {CreateAt, Email, Password} from "@/component/Icon";
-import {useEffect, useState} from "react";
-import toast from "react-hot-toast";
+import { useState} from "react";
 import Link from "next/link";
-import { getAxiosInstance } from '@/util/axiosInstance';
 import UpdatePassword from "@/component/Modal/UpdatePassword";
 import {getManagementPath} from "@/util/helper";
 import Header from "@/component/Header";
 import LoadingScroll from "@/component/LoadingScroll";
+import {useUserStore} from "@/store/useUserStore";
 
-type ProfileProps = {
-  email: string
-  created_at: string
-  updated_at: string
-}
 export default function Profile() {
-  const [user, setUser] = useState<ProfileProps | null>()
   const [showModalUpdatePassword, setShowModalUpdatePassword] = useState(false)
-
-  useEffect(() => {
-    const fetchProfile = async () => {
-      try {
-        const res = await getAxiosInstance().get('creator/profile');
-        const data = res.data
-        if (!data.success) {
-          toast.error('Không thể tải thông tin cá nhân')
-          return
-        }
-
-        setUser(data.data)
-      } catch (err) {
-        toast.error('Lỗi kết nối máy chủ')
-      }
-    }
-
-    fetchProfile()
-  }, [])
+  const {user} = useUserStore()
 
   return (
     <div className="min-h-screen max_w_414px m-auto bg-white w-full h-full pt-[15px] md:px-[15px] pb-[6px]">
