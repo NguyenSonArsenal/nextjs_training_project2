@@ -14,8 +14,10 @@ export const setCookie = (name: string, value: string, maxAgeSeconds = 3600) => 
   document.cookie = `${name}=${encodeURIComponent(value)}; path=/; max-age=${maxAgeSeconds}`
 }
 
-export const deleteCookie = (name: string) => {
-  document.cookie = `${name}=; path=/; max-age=0`
+export const deleteCookie = (names: string[]) => {
+  names.forEach((name) => {
+    document.cookie = `${name}=; path=/; max-age=0`
+  })
 }
 
 export async function delay(ms: number) {

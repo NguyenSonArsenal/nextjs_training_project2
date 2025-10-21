@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { IconBack } from '@/component/Icon'
 import {useUserStore} from "@/store/useUserStore";
+import { useLogout } from '@/util/hook/auth'
 
 interface MobileHeaderProps {
   title: string
@@ -16,6 +17,7 @@ export default function Header({
                                         onClose,
                                      }: MobileHeaderProps) {
   const { user } = useUserStore()
+  const logout = useLogout()
 
   return (
     <div className={`flex items-center justify-between pb-2 border-b border-neutral-4 ${className}`}>
@@ -39,6 +41,7 @@ export default function Header({
       <div className="pr-4 text-right text-sm text-neutral-600">
         <p>👋 Xin chào, <strong>{user?.username}</strong></p>
         <p className="text-xs text-neutral-500">📧 {user?.email}</p>
+        <p onClick={logout} className={"inline-block cursor-pointer"}>Logout</p>
       </div>
     </div>
   )

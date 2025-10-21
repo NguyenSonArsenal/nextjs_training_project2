@@ -1,17 +1,18 @@
 "use client"
 
 import { useRouter } from 'next/navigation'
-import {deleteCookie, getCookie, getManagementPath} from '@/util/helper'
+import {getCookie, getManagementPath} from '@/util/helper'
 import {useEffect, useState} from "react";
-import {ACCESS_TOKEN_KEY, USER_AUTH_STORAGE_KEY} from "@/config/system";
+import {ACCESS_TOKEN_KEY} from "@/config/system";
 import Link from "next/link";
 import ButtonDanger from "@/component/Form/ButtonDanger";
-import {useUserStore} from "@/store/useUserStore";
+import {useLogout} from "@/util/hook/auth";
 
 export default function HomeClient() {
   const router = useRouter()
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [isChecking, setIsChecking] = useState(true)
+  const logout = useLogout()
 
   useEffect(() => {
     const token = getCookie(ACCESS_TOKEN_KEY)
@@ -23,12 +24,6 @@ export default function HomeClient() {
     setIsChecking(false)
   }, [])
 
-  const logout = () => {
-    deleteCookie(ACCESS_TOKEN_KEY)
-    deleteCookie('email')
-    useUserStore.getState().clearUser()
-    router.push(getManagementPath('/auth/login'))
-  }
 
   if (isChecking) return null // hoặc loading spinner
 

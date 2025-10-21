@@ -26,7 +26,6 @@ export default function ListUser() {
 
   const [selectedUserId, setSelectedUserId] = useState<number | null>(null)
   const [showModalConfirmDelete, setShowModalConfirmDelete] = useState<boolean>(false);
-  // const [isDeleting, setIsDeleting] = useState(false)
 
   const {
     data: users,

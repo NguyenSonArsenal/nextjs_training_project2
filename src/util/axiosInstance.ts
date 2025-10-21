@@ -18,7 +18,7 @@ export const getAxiosInstance = () => {
     (response) => response,
     (error) => {
       if (error.response?.status === 401) {
-        deleteCookie(ACCESS_TOKEN_KEY);
+        deleteCookie([ACCESS_TOKEN_KEY]);
         window.location.href = process.env.NEXT_PUBLIC_MANAGEMENT_PREFIX + '/auth/login';
       }
       return Promise.reject(error);

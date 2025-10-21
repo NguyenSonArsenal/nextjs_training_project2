@@ -78,7 +78,7 @@ export default function Login() {
 
       const data = await response.data;
       if (data.success) {
-        setCookie(ACCESS_TOKEN_KEY, data.data.accessToken)
+        setCookie(ACCESS_TOKEN_KEY, data.data.access_token)
         setCookie('email', email)
         setUser(data.data)
         toast.success("Đăng nhập thành công")
