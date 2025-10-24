@@ -1,3 +1,5 @@
+// client-side
+
 /**
  * Lấy giá trị của cookie theo tên
  * @param name Tên cookie cần lấy

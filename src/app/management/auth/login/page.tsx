@@ -136,7 +136,7 @@ export default function Login() {
           Đăng nhập
         </ButtonLoading>
 
-        <Link href={"#"} className="text-myRed text-right block">Quên mật khẩu</Link>
+        {/*<Link href={"#"} className="text-myRed text-right block">Quên mật khẩu</Link>*/}
       </form>
 
 
