@@ -12,8 +12,8 @@ import InputErrorMessage from "@/component/InputErrorMessage";
 import toast from 'react-hot-toast';
 import {useRouter} from "next/navigation";
 import {delay, getManagementPath} from "@/util/helper";
-import {postRegister} from "@/controller/api";
 import ButtonLoading from "@/component/Form/ButtonLoading";
+import {postRegister} from "@/feature/auth/service/auth.service";
 
 
 // ✅ Schema kiểm tra dữ liệu
