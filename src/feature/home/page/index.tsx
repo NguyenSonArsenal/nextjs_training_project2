@@ -35,8 +35,6 @@ export default function HomePage() {
 
       <Link className={'mb-4 block'} href={getManagementPath('/profile')}>Profile</Link>
       <Link className={'mb-4 block'} href={getManagementPath('/user')}>User</Link>
-
-      <ButtonDanger type="button" handleSubmit={logout} className={"inline-block"}>Logout</ButtonDanger>
     </div>
   )
 }

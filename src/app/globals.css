@@ -88,6 +88,52 @@ a {
     -webkit-line-clamp: 2!important;
 }
 
+/* custom radio button antd */
+.adm-radio {
+  border-radius: 8px;
+  padding: 4px 16px;
+  display: flex;
+  align-items: flex-start;
+  --icon-size: 16px;
+  font-size: 16px;
+}
+
+.adm-radio .adm-radio-content {
+  padding-left: 5px !important;
+  font-size: 14px;
+  opacity: 1;
+}
+
+.adm-radio .adm-radio-icon {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 1px solid #d9d9d9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.adm-radio.adm-radio-checked .adm-radio-icon {
+  border-color: #EE3244 !important;
+  background-color: #EE3244 !important;
+}
+
+.adm-radio.adm-radio-checked .adm-radio-icon svg {
+  width: 16px;
+  height: 16px;
+  fill: #fff; /* Màu checkmark bên trong */
+}
+
+.adm-radio.adm-radio-disabled {
+  background: #F0F0F0;
+}
+
+.adm-radio.adm-radio-disabled .adm-radio-icon {
+  border-color: #d9d9d9;
+  background-color: #d9d9d9;
+}
+/* End custom radio button antd */
+
 /* custom modal antd */
 .adm-modal-content {
   font-size: 14px !important;
