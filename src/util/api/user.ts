@@ -1,7 +1,7 @@
 import { getAxiosInstance } from '@/util/axiosInstance';
 import {delay} from "@/util/helper";
 
-export const listUser = async () => {
+export const getUserList = async () => {
   const res = await getAxiosInstance().get('user')
   const data = res.data
 
@@ -12,7 +12,8 @@ export const listUser = async () => {
   return data.data
 }
 
-export const showUser = async (id: number) => {
+export const getUserDetail = async (id: number) => {
+  await delay(3000)
   const res = await getAxiosInstance().get(`user/${id}`)
   const data = res.data
   if (!data.success) {

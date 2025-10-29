@@ -5,7 +5,7 @@ import {getManagementPath} from "@/util/helper";
 import Header from "@/component/Header";
 import LoadingScroll from "@/component/LoadingScroll";
 import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
-import {deleteUser, listUser} from "@/util/api/user";
+import {deleteUser, getUserList} from "@/util/api/user";
 import {DeleteOutline, RightOutline} from "antd-mobile-icons";
 import ConfirmDelete from "@/component/Modal/ConfirmDelete";
 import {useState} from "react";
@@ -21,7 +21,7 @@ interface User {
   address: string
 }
 
-export default function ListUser() {
+export default function UserList() {
   const queryClient = useQueryClient()
 
   const [selectedUserId, setSelectedUserId] = useState<number | null>(null)
@@ -33,8 +33,8 @@ export default function ListUser() {
     isError,
     error,
   } = useQuery<User[]>({
-    queryKey: ['users'],
-    queryFn: listUser,
+    queryKey: ['get_user_list'],
+    queryFn: getUserList,
   })
 
   const openDeleteModal = (userId: number) => {
