@@ -13,7 +13,6 @@ export const getUserList = async () => {
 }
 
 export const getUserDetail = async (id: number) => {
-  await delay(3000)
   const res = await getAxiosInstance().get(`user/${id}`)
   const data = res.data
   if (!data.success) {

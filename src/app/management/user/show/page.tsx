@@ -42,7 +42,7 @@ export default function UserDetail() {
             {user?.username ? user.username : <Skeleton animated style={{ width: "50%", height: 15 }} />}
           </div>
         </div>
-        <div className="form-group border-b mb-3 pb-2">
+        <div className="form-group border-b mb-3 pb-[2px]">
           <div className={"flex items-center mb-[2px]"}>
             <Email />
             <span className={"ml-2"}>Email</span>
@@ -51,12 +51,12 @@ export default function UserDetail() {
             {user?.email ? user.email : <Skeleton animated style={{ width: "50%", height: 15 }} />}
           </div>
         </div>
-        <div className="form-group border-b mb-3 pb-2">
+        <div className="form-group border-b mb-3 pb-[2px]">
           <div className={"flex items-center mb-[2px]"}>
             <Phone />
             <span className={"ml-2"}>SĐT</span>
           </div>
-          <div className={"text-[#bfbfbf]"}>
+          <div className={"text-[#bfbfbf] h-[15px]"}>
             {user?.phone ? user.phone : <Skeleton animated style={{ width: "50%", height: 15 }} />}
           </div>
         </div>

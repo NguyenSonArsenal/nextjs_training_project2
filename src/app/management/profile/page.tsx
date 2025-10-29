@@ -15,7 +15,7 @@ export default function Profile() {
 
   return (
     <div className="min-h-screen max_w_414px m-auto bg-white w-full h-full pt-[15px] md:px-[15px] pb-[6px]">
-      <Header title={"Trang cá nhân"} backHref={getManagementPath('')}/>
+      <Header title={"Trang cá nhân"} backHref={getManagementPath('dashboard')}/>
       {
         !user ? (
           <LoadingScroll />

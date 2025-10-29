@@ -12,9 +12,9 @@ export function middleware(request: NextRequest) {
   const isAuthPage = pathname.startsWith(`${MANAGEMENT_PREFIX}/auth`)
   const isLoginPage = pathname === `${MANAGEMENT_PREFIX}/auth/login`
 
-  // ✅ Nếu là trang login và đã có token → redirect về /management
+  // ✅ Nếu là trang login và đã có token → redirect về /management/dashboard
   if (token && isLoginPage) {
-    return NextResponse.redirect(new URL(MANAGEMENT_PREFIX, request.url))
+    return NextResponse.redirect(new URL(`${MANAGEMENT_PREFIX}/dashboard`, request.url));
   }
 
   // ✅ Nếu là trang auth (login/register) → cho qua

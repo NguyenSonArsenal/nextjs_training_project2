@@ -60,7 +60,7 @@ export const useLogin = () => {
         setCookie('email', email)
         setUser(data.data)
         toast.success('Đăng nhập thành công')
-        router.push(getManagementPath(''))
+        router.push(getManagementPath('dashboard'))
         return
       }
 

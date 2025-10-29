@@ -8,7 +8,7 @@ import Link from "next/link";
 import ButtonDanger from "@/component/Form/ButtonDanger";
 import {useLogout} from "@/util/hook/auth";
 
-export default function HomeClient() {
+export default function HomePage() {
   const router = useRouter()
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [isChecking, setIsChecking] = useState(true)

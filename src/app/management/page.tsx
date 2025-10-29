@@ -1,10 +1,7 @@
-import HomeClient from "@/client_component/home";
+import {redirect} from "next/navigation";
+import {getManagementPath} from "@/util/helper";
 
-export const metadata = {
-  title: 'Trang chủ',
-  description: 'Lorem',
-}
-
-export default function HomePage() {
-  return <HomeClient />
+export default function Home() {
+  redirect(getManagementPath('dashboard'));
+  return null; // Không render gì cả
 }

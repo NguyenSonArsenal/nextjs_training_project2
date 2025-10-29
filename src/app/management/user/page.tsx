@@ -72,7 +72,7 @@ export default function UserList() {
 
   return (
     <div className="min-h-screen max_w_414px m-auto bg-white w-full h-full pt-[15px] md:px-[15px] pb-[6px]">
-      <Header title={"Danh sách user"} backHref={getManagementPath('')}/>
+      <Header title={"Danh sách user"} backHref={getManagementPath('dashboard')}/>
       <br/>
 
       <div className="flex justify-end mb-4">
