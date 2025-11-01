@@ -9,7 +9,7 @@ export default function DebugPanel({ data }: DebugPanelProps) {
     <div
       style={{
         position: 'fixed',
-        bottom: 0,
+        bottom: 50,
         right: 0,
         background: 'rgba(0,0,0,0.8)',
         color: 'white',

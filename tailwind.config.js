@@ -10,7 +10,7 @@ module.exports = {
     theme: {
         extend: {
             colors: {
-                myRed: "#ff0000",
+                myRed: "#EE3244",
                 myRed_hover: "#d6283b",
             },
         },

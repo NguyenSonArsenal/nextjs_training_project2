@@ -15,6 +15,7 @@ import {delay, getManagementPath} from "@/util/helper";
 import Header from "@/component/Header";
 import {Radio, Space} from "antd-mobile";
 import {GENDER} from "@/config/system";
+import {postRegister} from "@/feature/auth/service/auth.service";
 
 
 // ✅ Schema kiểm tra dữ liệu
@@ -56,22 +57,20 @@ export default function UserCreate() {
   const onSubmit = async (data: any) => {
     try {
       await delay(1000)
-      console.log(data, '// data')
-      return
-      // const response = await postRegister(data);
-      // if (!response.data.success) {
-      //   const errors = response.data.errors || {}
-      //   if (errors.username) {
-      //     setError('username', { type: 'server', message: errors.username[0] })
-      //   }
-      //   if (errors.email) {
-      //     setError('email', { type: 'server', message: errors.email[0] })
-      //   }
-      //   if (errors.phone) {
-      //     setError('phone', { type: 'server', message: errors.phone[0] })
-      //   }
-      //   return
-      // }
+      const response = await postRegister(data);
+      if (!response.data.success) {
+        const errors = response.data.errors || {}
+        if (errors.username) {
+          setError('username', { type: 'server', message: errors.username[0] })
+        }
+        if (errors.email) {
+          setError('email', { type: 'server', message: errors.email[0] })
+        }
+        if (errors.phone) {
+          setError('phone', { type: 'server', message: errors.phone[0] })
+        }
+        return
+      }
       toast.success('Thêm mới thành công')
       return router.push(getManagementPath('user'))
     } catch (error) {
@@ -80,10 +79,11 @@ export default function UserCreate() {
     }
   }
 
-  // const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   const onlyNumbers = e.target.value.replace(/\D/g, '') // Xóa mọi ký tự không phải số
-  //   e.target.value = onlyNumbers.slice(0, 11  )
-  // }
+  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const onlyNumbers = e.target.value.replace(/\D/g, '') // Xóa mọi ký tự không phải số
+    e.target.value = onlyNumbers.slice(0, 11)
+    setValue('phone', onlyNumbers, { shouldValidate: true, shouldDirty: true })
+  }
 
   return (
     <div className="min-h-screen max_w_414px m-auto bg-white w-full h-full pt-[15px] md:px-[15px] pb-[6px]">
@@ -111,7 +111,7 @@ export default function UserCreate() {
           <input type="text" className="text-[17px] px-3 py-[10px] form_control"
                  placeholder="0964000111" {...register("phone")}
                  pattern="\d*" inputMode="numeric"
-                 // onChange={handlePhoneChange}
+                 onChange={handlePhoneChange}
           />
           <InputErrorMessage message={errors.phone?.message}/>
         </div>

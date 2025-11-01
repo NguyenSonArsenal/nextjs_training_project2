@@ -104,9 +104,9 @@ a {
   opacity: 1;
 }
 
-.adm-radio .adm-radio-icon {
-  width: 16px;
-  height: 16px;
+.adm-radio-icon {
+  width: 16px !important;
+  height: 16px !important;
   border-radius: 50%;
   border: 1px solid #d9d9d9;
   display: flex;
